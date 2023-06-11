@@ -34,9 +34,6 @@
         <div class="container">
             @yield('content')
         </div>
-        <div class="container-fluid text-center pt-4 pb-4 bg-warning">
-            This is footer
-        </div>
     </div>
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
 </body>

@@ -20,16 +20,16 @@ class musicController extends Controller
             // $articles = DB::select("SELECT * FROM baiviet WHERE ma_tgia LIKE (select ma_tgia from tacgia where ten_tgia like'%$search%')");
 
             //Cách 2 Query Builder
-            $articles = DB::table('baiviet')
-                ->join('tacgia', 'baiviet.ma_tgia', '=', 'tacgia.ma_tgia')
-                ->where('tacgia.ten_tgia', 'LIKE', '%' . $search . '%')
-                ->select('baiviet.*')
-                ->get();
+            // $articles = DB::table('baiviet')
+            //     ->join('tacgia', 'baiviet.ma_tgia', '=', 'tacgia.ma_tgia')
+            //     ->where('tacgia.ten_tgia', 'LIKE', '%' . $search . '%')
+            //     ->select('baiviet.*')
+            //     ->get();
 
             //Cách 3 Eloquent ORM
-            // $authors = Author::where("ten_tgia", "LIKE", "%$search%")->value('ma_tgia');
+            $authors = Author::where("ten_tgia", "LIKE", "%$search%")->value('ma_tgia');
 
-            // $articles = Article::where("ma_tgia", $authors)->get();
+            $articles = Article::where("ma_tgia", $authors)->get();
         } else {
             //Cách 1 Raw data
             //$articles = DB::select('SELECT * FROM baiviet');
@@ -74,12 +74,23 @@ class musicController extends Controller
                     ->orWhere('ten_bhat', 'LIKE', "%$keyword%");
             }
         })->get();
+        $categories = Category::all();
+
+
+        $selectedCategory = $request->query('category');
+
+        if ($selectedCategory) {
+            $articleCa = Article::where('ma_tloai', $selectedCategory)->get();
+        } else {
+            $articleCa = Article::all();
+        }
+
 
         // $tenTheLoai = 'enim';
         // $result = DB::select('CALL sp_DSbaiviet(?)', [$tenTheLoai]);
 
 
-        return view("index", compact("articles", "search", "tenTheloai", "authorTops", "articleMixs", "articleSongs"));
+        return view("index", compact("articles", "search", "tenTheloai", "authorTops", "articleMixs", "articleSongs", "selectedCategory", "categories", "articleCa"));
     }
 
     public function create()
