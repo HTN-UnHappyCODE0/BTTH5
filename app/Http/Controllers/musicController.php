@@ -41,14 +41,14 @@ class musicController extends Controller
             $articles = Article::all();
         }
 
-        $mostArticlesCategory = Category::select('ma_tloai')
+        $NoArticlesCategory = Category::select('ma_tloai')
             ->selectRaw('COUNT(*) as total_articles')
             ->groupBy('ma_tloai')
             ->orderByDesc('total_articles')
             ->first();
 
-        if ($mostArticlesCategory) {
-            $tenTheloai = Category::where('ma_tloai', $mostArticlesCategory->ma_tloai)->value('ten_tloai');
+        if ($NoArticlesCategory) {
+            $tenTheloai = Category::where('ma_tloai', $NoArticlesCategory->ma_tloai)->value('ten_tloai');
         } else {
             $tenTheloai = null;
         }

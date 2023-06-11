@@ -8,7 +8,6 @@
     <div class="mb-3">
         <label>The loai nhieu bai nhat: {{ $tenTheloai }}</label>
 
-
     </div>
     <div class="container-fluid">
         <h3 class="text-center mt-4 mb-4 text-success">Danh sách bài hát</h3>
@@ -63,6 +62,17 @@
                 </div>
             </div>
         @endforeach
+    </div>
+    <h1>Thể loại có nhiều bài viết nhất</h1>
+    <div class="row mt-4">
+
+        <div class="col-md-3 mb-2">
+            <div class="card" style="width: 18 rem;">
+                <class="card-body">
+                    <p5 class="fw-bold">Category Name: {{ $tenTheloai }}</5>
+            </div>
+        </div>
+
     </div>
     <h1>2 tác giả có bài viết nhiều nhất</h1>
 
