@@ -14,7 +14,7 @@
     </div>
 
     <h1>Danh sách bài hát</h1>
-    <a href="{{ url('/articles/create') }}" class="btn btn-success fw-bold float-right">
+    <a href="{{ url('/article/create') }}" class="btn btn-success fw-bold float-right">
         <i class="fa-solid fa-plus"></i> Add
         Song</a>
 

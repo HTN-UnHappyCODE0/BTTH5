@@ -7,7 +7,7 @@
                 <h4>Thêm bài viết</h4>
             </div>
             <div class="card-body">
-                <form method="POST" action="{{ url('/articles') }}" enctype="multipart/form-data">
+                <form method="POST" action="{{ url('/article') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
                         <label for="">Title</label>

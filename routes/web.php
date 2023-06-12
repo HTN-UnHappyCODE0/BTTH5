@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\musicController;
 
@@ -15,10 +16,15 @@ use App\Http\Controllers\musicController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('article.index');
 });
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login']);
 
 
-Route::get("/articles", [musicController::class, "index"]);
-Route::post("/articles", [musicController::class, "store"])->name('articles.store');
-Route::get("/articles/create", [musicController::class, "create"]);
+Route::get("/article", [musicController::class, "index"]);
+Route::get("/article/create", [musicController::class, "create"]);
+Route::post("/article", [musicController::class, "store"])->middleware('auth');
+Auth::routes();
+
+Route::get('article/index', [App\Http\Controllers\HomeController::class, 'index'])->name('article');

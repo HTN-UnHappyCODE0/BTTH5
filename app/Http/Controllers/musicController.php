@@ -8,7 +8,9 @@ use App\Models\Article;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\ArticleFormRequest;
+
 
 
 class musicController extends Controller
@@ -93,18 +95,22 @@ class musicController extends Controller
         // $result = DB::select('CALL sp_DSbaiviet(?)', [$tenTheLoai]);
 
 
-        return view("index", compact("articles", "search", "tenTheloai", "authorTops", "articleMixs", "articleSongs", "selectedCategory", "categories", "articleCa"));
+        return view("article.index", compact("articles", "search", "tenTheloai", "authorTops", "articleMixs", "articleSongs", "selectedCategory", "categories", "articleCa"));
     }
 
     public function create()
     {
         $articles = Article::all();
-        return view("create", compact("articles"));
+        return view("article.create", compact("articles"));
     }
 
     public function store(ArticleFormRequest $request)
 
     {
+
+        if (Gate::denies('create-article')) {
+            abort(403, 'Unauthorized');
+        }
         $validated = $request->validated();
 
         $article = new Article();
@@ -118,6 +124,6 @@ class musicController extends Controller
         $article->ngayviet = Carbon::createFromFormat('d/m/Y H:i:s', $validated['ngayviet']);
         $article->save();
 
-        return redirect('/articles')->with('message', 'category added successfully');
+        return redirect('article')->with('message', ' added successfully');
     }
 }
