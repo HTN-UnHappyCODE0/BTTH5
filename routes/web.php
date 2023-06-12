@@ -20,3 +20,5 @@ Route::get('/', function () {
 
 
 Route::get("/articles", [musicController::class, "index"]);
+Route::post("/articles", [musicController::class, "store"])->name('articles.store');
+Route::get("/articles/create", [musicController::class, "create"]);

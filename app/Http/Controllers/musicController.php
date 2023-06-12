@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Author;
 use App\Models\Article;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\ArticleFormRequest;
+
 
 class musicController extends Controller
 {
@@ -95,6 +98,26 @@ class musicController extends Controller
 
     public function create()
     {
-        return view("create");
+        $articles = Article::all();
+        return view("create", compact("articles"));
+    }
+
+    public function store(ArticleFormRequest $request)
+
+    {
+        $validated = $request->validated();
+
+        $article = new Article();
+        $article->ma_tgia = $validated['ma_tgia'];
+        $article->ma_tloai = $validated['ma_tloai'];
+        $article->tieude = $validated['tieude'];
+        $article->ten_bhat = $validated['ten_bhat'];
+        $article->hinhanh = $validated['hinhanh'];
+        $article->tomtat = $validated['tomtat'];
+        $article->noidung = $validated['noidung'];
+        $article->ngayviet = Carbon::createFromFormat('d/m/Y H:i:s', $validated['ngayviet']);
+        $article->save();
+
+        return redirect('/articles')->with('message', 'category added successfully');
     }
 }
