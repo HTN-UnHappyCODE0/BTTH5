@@ -36,11 +36,37 @@
                         <p class="fw-bold">Date: {{ $item->ngayviet }}</p>
                         <p class="card-text">{{ $item->tomtat }}</p>
                         <td><a href="{{ url('articles/' . $item->ma_bviet . '/edit') }}" class="btn btn-success">Edit</a>
-                            <a href="#"
-                                wire:click="deleteCategory({{ url('/articles' . $item->ma_bviet . '/delete') }})"
-                                data-bs-toggle="modal" data-bs-target="#deleteModal" class="btn btn-danger">Delete</a>
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                data-bs-target="#deleteModal{{ $item->ma_bviet }}">Delete</button>
                         </td>
+                        <div class="modal fade" id="deleteModal{{ $item->ma_bviet }}" tabindex="-1"
+                            aria-labelledby="deleteModalLabel{{ $item->ma_bviet }}" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="deleteModalLabel{{ $item->ma_bviet }}">
+                                            Delete
+                                            Confirmation</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Are you sure, you want to delete
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <form action="{{ url('articles/' . $item->ma_bviet) }}"
+                                            class="d-inline-block
+                                            method="POST">
+                                            @csrf
 
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                 </div>
             </div>

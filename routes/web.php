@@ -24,3 +24,4 @@ Route::get("/articles/create", [musicController::class, "create"]);
 Route::post("/articles", [musicController::class, "store"]);
 Route::get("/articles/{article}/edit", [musicController::class, "edit"]);
 Route::post("/articles/{article}", [musicController::class, "update"]);
+Route::get("/articles/{article}", [musicController::class, "destroy"]);
