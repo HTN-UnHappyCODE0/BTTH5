@@ -14,15 +14,15 @@
     </div>
 
     <h1>Danh sách bài hát</h1>
-    <a href="{{ url('admin/category/create') }}" class="btn btn-success fw-bold float-right">
+    <a href="{{ url('/articles/create') }}" class="btn btn-success fw-bold float-right">
         <i class="fa-solid fa-plus"></i> Add
         Song</a>
-    <a href="{{ url('admin/category/create') }}" class="btn btn-warning fw-bold float-right">
-        <i class="fa-solid fa-plus"></i> Edit</a>
-    <a href="{{ url('admin/category/create') }}" class="btn btn-danger fw-bold float-right">
-        <i class="fa-solid fa-plus"></i> Delete</a>
+
 
     <div class="row mt-4">
+        @if (session('message'))
+            <div class="alert alert-success">{{ session('message') }}</div>
+        @endif
         @foreach ($articles as $item)
             <div class="col-md-3 mb-2">
                 <div class="card" style="width: 18 rem;">
@@ -35,6 +35,11 @@
                         <p class="fw-bold">Author: {{ $item->author->ten_tgia }}</p>
                         <p class="fw-bold">Date: {{ $item->ngayviet }}</p>
                         <p class="card-text">{{ $item->tomtat }}</p>
+                        <td><a href="{{ url('articles/' . $item->ma_bviet . '/edit') }}" class="btn btn-success">Edit</a>
+                            <a href="#"
+                                wire:click="deleteCategory({{ url('/articles' . $item->ma_bviet . '/delete') }})"
+                                data-bs-toggle="modal" data-bs-target="#deleteModal" class="btn btn-danger">Delete</a>
+                        </td>
 
 
                 </div>

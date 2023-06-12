@@ -2,17 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Author;
 use App\Models\Article;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
+use App\Http\Requests\ArticleFormRequest;
+
+
 
 class musicController extends Controller
 {
     public function index(Request $request)
     {
         $search = $request['search'] ??  "";
+
+
 
 
         if ($search !== "") {
@@ -95,6 +102,58 @@ class musicController extends Controller
 
     public function create()
     {
-        return view("create");
+
+        $articles = Article::all();
+        return view("create", compact("articles"));
+    }
+
+    public function edit(Article $article)
+    {
+        $articles = Article::all();
+        $categories = Category::all();
+        $authors = Author::all();
+
+        return view('edit', compact('article', "articles", "categories", "authors"));
+    }
+
+    public function store(ArticleFormRequest $request)
+    {
+
+        $validated = $request->validated();
+
+        $article = new Article();
+        $article->ma_tgia = $validated['ma_tgia1'];
+        $article->ma_tloai = $validated['ma_tloai1'];
+
+        $article->tieude = $validated['tieude1'];
+        $article->ten_bhat = $validated['ten_bhat1'];
+
+
+
+        $article->hinhanh = $validated['hinhanh1'];
+        $article->tomtat = $validated['tomtat1'];
+        $article->noidung = $validated['noidung1'];
+        $article->ngayviet = date('Y-m-d h:i:s', strtotime($validated['ngayviet1']));
+        $article->save();
+
+        return redirect('/articles')->with('message', ' added successfully');
+    }
+    public function update(ArticleFormRequest $request, Article $article)
+    {
+        //dd($request);
+        $validated = $request->validated();
+        $article = Article::find($article->ma_bviet);
+
+        $article->tieude = $validated['tieude1'];
+        $article->ten_bhat = $validated['ten_bhat1'];
+        $article->hinhanh = $validated['hinhanh1'];
+        $article->tomtat = $validated['tomtat1'];
+        $article->noidung = $validated['noidung1'];
+        $article->ma_tgia = $validated['ma_tgia1'];
+        $article->ma_tloai = $validated['ma_tloai1'];
+        $article->ngayviet = date('Y-m-d h:i:s', strtotime($validated['ngayviet1']));
+        $article->update();
+
+        return redirect('/articles')->with('message', ' updated successfully');
     }
 }
